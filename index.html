@@ -1,175 +1,388 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Alex Rivera — DevOps / SRE</title>
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-/* Set a style for all buttons */
-button {
-  background-color: #04AA6D;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-/* Extra styles for the cancel button */
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
-
-/* Center the image and position the close button */
-.imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
-  position: relative;
-}
-
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
-}
-
-.container {
-  padding: 16px;
-}
-
-span.psw {
-  float: right;
-  padding-top: 16px;
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  padding-top: 60px;
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button (x) */
-.close {
-  position: absolute;
-  right: 25px;
-  top: 0;
-  color: #000;
-  font-size: 35px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: red;
-  cursor: pointer;
-}
-
-/* Add Zoom Animation */
-.animate {
-  -webkit-animation: animatezoom 0.6s;
-  animation: animatezoom 0.6s
-}
-
-@-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)} 
-  to {-webkit-transform: scale(1)}
-}
-  
-@keyframes animatezoom {
-  from {transform: scale(0)} 
-  to {transform: scale(1)}
-}
-
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --accent: #58a6ff; --accent2: #3fb950; --accent3: #d2a8ff;
+    --text: #e6edf3; --muted: #8b949e; --tag-bg: #1f2937;
+    --tag-border: #374151; --timeline: #21262d;
   }
-  .cancelbtn {
-     width: 100%;
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem}
+  .nav-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+  .nav-name{font-weight:600;font-size:14px;color:var(--accent);letter-spacing:.02em}
+  .nav-links{display:flex;gap:1.5rem}
+  .nav-links a{font-size:13px;color:var(--muted);transition:color .2s}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+
+  /* LAYOUT */
+  main{max-width:860px;margin:0 auto;padding:3rem 2rem 6rem}
+
+  /* HERO */
+  .hero{padding:3rem 0 2.5rem;border-bottom:1px solid var(--border);margin-bottom:3rem}
+  .hero-top{display:flex;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+  .avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,#0d4429);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:var(--accent);flex-shrink:0;letter-spacing:-1px}
+  .hero-info{flex:1;min-width:200px}
+  h1{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:4px}
+  .title-badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent2);font-weight:500;margin-bottom:12px}
+  .title-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent2);display:inline-block;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+  .meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted)}
+  .meta-item svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;flex-shrink:0}
+
+  /* SECTIONS */
+  section{margin-bottom:3rem}
+  .section-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+  /* SUMMARY */
+  .summary{font-size:15px;color:var(--muted);line-height:1.7;max-width:680px}
+
+  /* SKILLS */
+  .skill-group{margin-bottom:1.2rem}
+  .skill-cat{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--tag-border);background:var(--tag-bg);color:var(--text);transition:border-color .2s,color .2s}
+  .tag:hover{border-color:var(--accent);color:var(--accent)}
+  .tag.blue{border-color:#1d4ed8;color:#60a5fa;background:#0f172a}
+  .tag.green{border-color:#166534;color:#4ade80;background:#052e16}
+  .tag.purple{border-color:#6b21a8;color:#c084fc;background:#1e0a3c}
+  .tag.orange{border-color:#92400e;color:#fb923c;background:#1c1007}
+  .tag.red{border-color:#7f1d1d;color:#f87171;background:#1c0909}
+
+  /* EXPERIENCE */
+  .job{position:relative;padding-left:24px;margin-bottom:2.5rem}
+  .job::before{content:'';position:absolute;left:0;top:8px;bottom:-2rem;width:1px;background:var(--border)}
+  .job:last-child::before{display:none}
+  .job-dot{position:absolute;left:-5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);z-index:1}
+  .job-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+  .job-title{font-size:15px;font-weight:600;color:var(--text)}
+  .job-date{font-size:12px;color:var(--muted);white-space:nowrap;padding-top:2px}
+  .job-company{font-size:13px;color:var(--accent);margin-bottom:10px}
+  .job-bullets{list-style:none;padding:0}
+  .job-bullets li{font-size:13.5px;color:var(--muted);padding:3px 0 3px 16px;position:relative;line-height:1.6}
+  .job-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent2);font-size:11px;top:5px}
+  .job-stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+  .job-stack span{font-size:11px;padding:2px 8px;border-radius:4px;background:var(--timeline);color:var(--muted);border:1px solid var(--border)}
+
+  /* METRICS STRIP */
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:1.5rem 0}
+  .metric{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.9rem 1rem;text-align:center}
+  .metric-val{font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+  .metric-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+
+  /* EDUCATION + CERTS */
+  .card-row{display:grid;gap:10px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;display:flex;gap:14px;align-items:flex-start}
+  .card-icon{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+  .card-icon.blue{background:#0f172a;border:1px solid #1d4ed8}
+  .card-icon.green{background:#052e16;border:1px solid #166534}
+  .card-icon.orange{background:#1c1007;border:1px solid #92400e}
+  .card-icon.purple{background:#1e0a3c;border:1px solid #6b21a8}
+  .card-body h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+  .card-body p{font-size:12.5px;color:var(--muted)}
+  .card-date{font-size:11px;color:var(--muted);margin-left:auto;white-space:nowrap;padding-top:2px}
+
+  /* PRINT */
+  @media print{
+    nav{display:none}
+    body{background:#fff;color:#111}
+    :root{--bg:#fff;--surface:#f9f9f9;--border:#ddd;--text:#111;--muted:#555;--accent:#0066cc;--accent2:#2a7a2a;--tag-bg:#f0f0f0;--tag-border:#ccc;--timeline:#f0f0f0}
+    main{padding:1rem}
+    .job::before,.job-dot{display:none}
+    .job{padding-left:0}
   }
-}
+
+  @media(max-width:600px){
+    .hero-top{flex-direction:column;gap:1rem}
+    .nav-links{gap:1rem}
+  }
 </style>
 </head>
 <body>
 
-<h2>Modal Login Form</h2>
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">Alex Rivera</span>
+    <div class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#certs">Certs</a>
+      <a href="#education">Education</a>
+    </div>
+  </div>
+</nav>
 
-<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+<main>
 
-<div id="id01" class="modal">
-  
-  <form class="modal-content animate" action="/action_page.php" method="post">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="avatar">AR</div>
+      <div class="hero-info">
+        <h1>Alex Rivera</h1>
+        <div class="title-badge">Senior DevOps / SRE Engineer</div>
+        <p class="summary" style="margin-bottom:12px">
+          7+ years building resilient, automated infrastructure at scale. Passionate about eliminating toil, improving observability, and bridging the gap between Dev and Ops. Strong background in cloud-native architectures, incident management, and platform engineering.
+        </p>
+        <div class="hero-meta">
+          <span class="meta-item">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            San Francisco, CA (Remote OK)
+          </span>
+          <a href="mailto:alex@example.com" class="meta-item">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            alex@example.com
+          </a>
+          <a href="https://github.com/alexrivera" class="meta-item">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            github.com/alexrivera
+          </a>
+          <a href="https://linkedin.com/in/alexrivera" class="meta-item">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            linkedin.com/in/alexrivera
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY METRICS -->
+  <div class="metrics">
+    <div class="metric"><div class="metric-val">99.98%</div><div class="metric-lbl">Avg SLA achieved</div></div>
+    <div class="metric"><div class="metric-val">&lt; 5 min</div><div class="metric-lbl">MTTD target</div></div>
+    <div class="metric"><div class="metric-val">300+</div><div class="metric-lbl">Services managed</div></div>
+    <div class="metric"><div class="metric-val">70%</div><div class="metric-lbl">Toil reduction</div></div>
+    <div class="metric"><div class="metric-val">12 PB</div><div class="metric-lbl">Data pipeline throughput</div></div>
+  </div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label">Technical Skills</div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Cloud & Infrastructure</div>
+      <div class="tags">
+        <span class="tag blue">AWS (EKS, EC2, RDS, S3, Lambda)</span>
+        <span class="tag blue">GCP (GKE, Cloud Run)</span>
+        <span class="tag blue">Azure (AKS)</span>
+        <span class="tag">Multi-cloud architecture</span>
+      </div>
     </div>
 
-    <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
-
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-        
-      <button type="submit">Login</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
+    <div class="skill-group">
+      <div class="skill-cat">Container & Orchestration</div>
+      <div class="tags">
+        <span class="tag blue">Kubernetes</span>
+        <span class="tag blue">Helm</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Kustomize</span>
+        <span class="tag">ArgoCD</span>
+        <span class="tag">FluxCD</span>
+        <span class="tag">Istio / Envoy</span>
+      </div>
     </div>
 
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
+    <div class="skill-group">
+      <div class="skill-cat">Infrastructure as Code</div>
+      <div class="tags">
+        <span class="tag purple">Terraform</span>
+        <span class="tag purple">Terragrunt</span>
+        <span class="tag purple">Ansible</span>
+        <span class="tag purple">Pulumi</span>
+        <span class="tag purple">CloudFormation</span>
+      </div>
     </div>
-  </form>
-</div>
 
-<script>
-// Get the modal
-var modal = document.getElementById('id01');
+    <div class="skill-group">
+      <div class="skill-cat">CI/CD & GitOps</div>
+      <div class="tags">
+        <span class="tag green">GitHub Actions</span>
+        <span class="tag green">Jenkins</span>
+        <span class="tag green">GitLab CI</span>
+        <span class="tag green">CircleCI</span>
+        <span class="tag green">Spinnaker</span>
+        <span class="tag green">Tekton</span>
+      </div>
+    </div>
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+    <div class="skill-group">
+      <div class="skill-cat">Observability & Reliability</div>
+      <div class="tags">
+        <span class="tag orange">Prometheus</span>
+        <span class="tag orange">Grafana</span>
+        <span class="tag orange">Datadog</span>
+        <span class="tag orange">PagerDuty</span>
+        <span class="tag orange">Jaeger</span>
+        <span class="tag orange">OpenTelemetry</span>
+        <span class="tag orange">ELK Stack</span>
+        <span class="tag orange">Loki</span>
+      </div>
+    </div>
 
+    <div class="skill-group">
+      <div class="skill-cat">Languages & Scripting</div>
+      <div class="tags">
+        <span class="tag red">Go</span>
+        <span class="tag red">Python</span>
+        <span class="tag red">Bash / Shell</span>
+        <span class="tag red">HCL</span>
+        <span class="tag red">YAML</span>
+        <span class="tag red">SQL</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-cat">Security & Compliance</div>
+      <div class="tags">
+        <span class="tag">Vault (HashiCorp)</span>
+        <span class="tag">SOPS</span>
+        <span class="tag">Trivy</span>
+        <span class="tag">Falco</span>
+        <span class="tag">SOC 2 Type II</span>
+        <span class="tag">CIS Benchmarks</span>
+        <span class="tag">RBAC / OPA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label">Experience</div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <span class="job-title">Senior Site Reliability Engineer</span>
+        <span class="job-date">Jan 2022 — Present</span>
+      </div>
+      <div class="job-company">Acme Cloud Corp · San Francisco, CA</div>
+      <ul class="job-bullets">
+        <li>Owned SLO framework for 50+ production services; drove SLA compliance from 99.5% to 99.98% over 18 months.</li>
+        <li>Designed and deployed a multi-region Kubernetes platform (EKS) serving 2M+ daily active users across 3 AWS regions with automated failover.</li>
+        <li>Reduced MTTD from 22 min to &lt;5 min by rebuilding the alerting stack with Prometheus, Grafana, and custom OpenTelemetry pipelines.</li>
+        <li>Led incident management practice: defined runbooks, blameless post-mortems, and on-call rotations for a 12-person SRE team.</li>
+        <li>Built internal developer platform (IDP) on top of Backstage, reducing new-service onboarding from 3 days to under 2 hours.</li>
+        <li>Achieved SOC 2 Type II compliance by hardening cluster RBAC, implementing OPA policy-as-code, and automating audit evidence collection.</li>
+      </ul>
+      <div class="job-stack">
+        <span>Kubernetes</span><span>Terraform</span><span>AWS EKS</span><span>ArgoCD</span><span>Prometheus</span><span>OpenTelemetry</span><span>Go</span><span>Backstage</span>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <span class="job-title">DevOps Engineer</span>
+        <span class="job-date">Aug 2019 — Dec 2021</span>
+      </div>
+      <div class="job-company">Fintech Startup (Series B) · Remote</div>
+      <ul class="job-bullets">
+        <li>Migrated monolithic Rails app to 15 containerized microservices on GKE; reduced deployment time from 45 min to under 8 min.</li>
+        <li>Built GitOps pipelines with FluxCD and GitHub Actions for zero-downtime blue/green deployments.</li>
+        <li>Automated infrastructure provisioning with Terraform + Terragrunt across dev, staging, and prod; eliminated manual config drift.</li>
+        <li>Implemented secrets management using HashiCorp Vault and SOPS, removing 200+ plaintext secrets from version control.</li>
+        <li>Reduced monthly AWS spend by $120K through right-sizing, spot instances, and reserved capacity planning.</li>
+      </ul>
+      <div class="job-stack">
+        <span>GKE</span><span>FluxCD</span><span>GitHub Actions</span><span>Terraform</span><span>Vault</span><span>Python</span><span>Datadog</span>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <span class="job-title">Systems / Infrastructure Engineer</span>
+        <span class="job-date">Jun 2017 — Jul 2019</span>
+      </div>
+      <div class="job-company">Enterprise SaaS Co. · Austin, TX</div>
+      <ul class="job-bullets">
+        <li>Managed 400+ node Linux fleet (RHEL/Ubuntu) across 3 data centers; introduced Ansible for configuration management, cutting provisioning time by 80%.</li>
+        <li>Deployed ELK Stack for centralized log aggregation, enabling real-time search across 5TB/day of log data.</li>
+        <li>Automated on-call runbooks with Python and PagerDuty APIs, resolving 60% of alerts without human intervention.</li>
+      </ul>
+      <div class="job-stack">
+        <span>Ansible</span><span>Linux</span><span>ELK Stack</span><span>Python</span><span>Bash</span><span>PagerDuty</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs">
+    <div class="section-label">Certifications</div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-icon blue">☁️</div>
+        <div class="card-body">
+          <h4>AWS Certified Solutions Architect – Professional</h4>
+          <p>Amazon Web Services</p>
+        </div>
+        <span class="card-date">2023</span>
+      </div>
+      <div class="card">
+        <div class="card-icon blue">⎈</div>
+        <div class="card-body">
+          <h4>Certified Kubernetes Administrator (CKA)</h4>
+          <p>Cloud Native Computing Foundation</p>
+        </div>
+        <span class="card-date">2022</span>
+      </div>
+      <div class="card">
+        <div class="card-icon blue">🔐</div>
+        <div class="card-body">
+          <h4>Certified Kubernetes Security Specialist (CKS)</h4>
+          <p>Cloud Native Computing Foundation</p>
+        </div>
+        <span class="card-date">2023</span>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">🏗️</div>
+        <div class="card-body">
+          <h4>HashiCorp Terraform Associate</h4>
+          <p>HashiCorp</p>
+        </div>
+        <span class="card-date">2021</span>
+      </div>
+      <div class="card">
+        <div class="card-icon orange">📊</div>
+        <div class="card-body">
+          <h4>Google Professional Cloud DevOps Engineer</h4>
+          <p>Google Cloud</p>
+        </div>
+        <span class="card-date">2022</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-label">Education</div>
+    <div class="card-row">
+      <div class="card">
+        <div class="card-icon green">🎓</div>
+        <div class="card-body">
+          <h4>B.S. Computer Science</h4>
+          <p>University of Texas at Austin · GPA 3.7</p>
+        </div>
+        <span class="card-date">2017</span>
+      </div>
+    </div>
+  </section>
+
+  <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:3rem">
+    Built with HTML · Hosted on <a href="https://pages.github.com" style="color:var(--muted)">GitHub Pages</a> · <a href="#" onclick="window.print();return false;" style="color:var(--muted)">Print / Save PDF</a>
+  </p>
+
+</main>
 </body>
 </html>
